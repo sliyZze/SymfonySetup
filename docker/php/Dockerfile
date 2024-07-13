@@ -4,7 +4,11 @@ RUN apt-get update && apt install -y \
     git \
     unzip \
     libzip-dev \
-    && docker-php-ext-install zip pdo_mysql
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd zip pdo_mysql
 
 # Install Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
